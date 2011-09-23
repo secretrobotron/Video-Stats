@@ -137,10 +137,11 @@
         // move current image to the left
         var lastImageData = ctx.getImageData( 0, 0, width, height );
         ctx.fillStyle = backgroundStyle;
-        ctx.clearRect( width - hBlockSize, 0, hBlockSize, height );
+        ctx.clearRect( 0, 0, width, height );
         ctx.fillRect( width - hBlockSize, 0, hBlockSize, height );
         ctx.putImageData( lastImageData, -hBlockSize, 0 );
 
+        var scaleTextX = 0;
         // draw properties
         for ( var i=0, l=properties.length; i<l; ++i ) {
 
@@ -158,6 +159,17 @@
           } //for
           ctx.fill();
 
+          var scaleText = "" + ( height / prop.scale / scale );
+          if ( i < properties.length - 1 ) {
+            scaleText += ", ";
+          }
+          var scaleTextW = ctx.measureText( scaleText ).width + 1;
+          ctx.fillStyle = "#000000";
+          
+          ctx.fillRect( scaleTextX, 0, scaleTextW , 13 );
+          ctx.fillStyle = prop.color;
+          ctx.fillText( scaleText, scaleTextX, 10 );
+          scaleTextX += scaleTextW;
         } //for
 
       } //if
